@@ -1,23 +1,17 @@
 eol-docker Cookbook
 ===================
-TODO: Enter the cookbook description here.
-
-e.g.
-This cookbook makes your favorite breakfast sandwich.
+This cookbook installs docker and creates EOL infrastructure according to
+eol-docker/infrastructure data bag
 
 Requirements
 ------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
 
-e.g.
-#### packages
-- `toaster` - eol-docker needs toaster to brown your bagel.
+#### cookbooks
+- `docker` - eol-docker needs docker cookbook to install and configure docker
 
 Attributes
 ----------
-TODO: List your cookbook attributes here.
 
-e.g.
 #### eol-docker::default
 <table>
   <tr>
@@ -27,9 +21,9 @@ e.g.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['eol-docker']['bacon']</tt></td>
+    <td><tt>['eol-docker']['todo']</tt></td>
     <td>Boolean</td>
-    <td>whether to include bacon</td>
+    <td>Add attributes here</td>
     <td><tt>true</tt></td>
   </tr>
 </table>
@@ -37,10 +31,9 @@ e.g.
 Usage
 -----
 #### eol-docker::default
-TODO: Write usage instructions for each cookbook.
 
-e.g.
-Just include `eol-docker` in your node's `run_list`:
+* Create data bag that describes your infrastructure
+* Include `eol-docker` in your node's `run_list`:
 
 ```json
 {
@@ -53,9 +46,7 @@ Just include `eol-docker` in your node's `run_list`:
 
 Contributing
 ------------
-TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
 
-e.g.
 1. Fork the repository on Github
 2. Create a named feature branch (like `add_component_x`)
 3. Write your change
@@ -65,4 +56,4 @@ e.g.
 
 License and Authors
 -------------------
-Authors: TODO: List authors
+Authors: Dmitry Mozzherin
