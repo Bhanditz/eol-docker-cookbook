@@ -1,5 +1,5 @@
 def install_ubuntu
-  require "apt"
+  include_recipe "apt"
   apt_repository "docker" do
     uri "https://get.docker.com/ubuntu"
     distribution node["lsb"]["codename"]
