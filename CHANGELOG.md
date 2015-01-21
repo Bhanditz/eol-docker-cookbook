@@ -3,6 +3,11 @@ eol-docker CHANGELOG
 
 This file is used to list changes made in each version of the eol-docker cookbook.
 
+0.1.4
+-----
+
+- [dimus][1] - added containers for content, varnish, virtuoso
+
 0.1.3
 -----
 - [dimus][1] - docker install works for ubuntu and centos 6

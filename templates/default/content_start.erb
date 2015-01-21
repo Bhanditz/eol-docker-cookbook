@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "Checking for existing <%= @name %> container";
+if [[ $(/usr/bin/docker ps -a | grep <%= @name %>) ]]; then
+  echo "Removing old <%= @name %> container";
+  /usr/bin/docker rm -f <%= @name %>;
+fi
+
+/usr/bin/docker run -d --name <%= @name %> -p 80:80 \
+  -v <%= @params['content_path'] %>:/usr/share/nginx/html:ro nginx
