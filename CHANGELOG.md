@@ -2,10 +2,12 @@ eol-docker CHANGELOG
 ====================
 
 This file is used to list changes made in each version of the eol-docker cookbook.
+0.1.5
+-----
+- [dimus][1] - added solr
 
 0.1.4
 -----
-
 - [dimus][1] - added containers for content, varnish, virtuoso
 
 0.1.3

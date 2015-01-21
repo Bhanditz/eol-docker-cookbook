@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo "Checking for existing <%= @name %> container";
+if [[ $(/usr/bin/docker ps -a | grep <%= @name %>) ]]; then
+  echo "Removing old <%= @name %> container";
+  /usr/bin/docker rm -f <%= @name %>;
+fi
+
+docker run -d -p <%= @params["solr_port"] %>:8983 \
+  -v /eol/solr/var/lib/solr:/opt/cores/solr --name <%= @name %> \
+  <%= @params["image"] %>:<%= @params["version"] %>

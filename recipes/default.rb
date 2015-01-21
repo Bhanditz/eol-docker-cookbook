@@ -1,7 +1,6 @@
 include_recipe "eol-docker::docker"
 
 env = node.environment
-Chef::Environment = env
 
 return unless data_bag("eol-docker").include?(env)
 

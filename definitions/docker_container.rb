@@ -11,7 +11,7 @@ define :docker_container, config: nil, passwd: nil do
   end
 
   cf = conf["config_files"]
-  if cf 
+  if cf
     cf.each do |f|
       directory File.dirname(f["host"]) do
         recursive true
