@@ -2,7 +2,9 @@ define :docker_container, config: nil, passwd: nil do
 
   conf = params[:config]
   params = conf["params"]
-  passwrords = nil
+  shared_files = []
+  shared_ports = []
+  passwords = nil
 
   directory "/eol/#{conf["name"]}" do
     user "root"
@@ -25,14 +27,30 @@ define :docker_container, config: nil, passwd: nil do
         source f["template"]
         variables params: params
       end
+      shared_files << [f["host"],f["container"]]
+    end
+  end
+
+  ddirs = conf["data_dirs"]
+  if ddirs
+    ddirs.each do |ddr|
+      directory File.dirname(ddr["host"]) do
+        recursive true
+        user "root"
+        group "root"
+        mode "775"
+      end
+      shared_files << [ddr["host"], ddr["container"]]
     end
   end
 
   sf = conf["service_files"]
-  %w(start_template stop_template restart_template).each do |f|
-    template "/usr/local/bin/#{sf[f]}" do
-      source sf[f] + ".erb"
-      variables params: params, name: conf["name"]
+  %w(start stop restart).each do |actn|
+    file_name = "#{conf['name']}_#{actn}"
+    template "/usr/local/bin/#{file_name}" do
+      source sf[actn]
+      variables params: params, name: conf["name"],
+                shared_files: shared_files, shared_ports: shared_ports
       mode "755"
       user "root"
       group "root"

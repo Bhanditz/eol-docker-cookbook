@@ -1,6 +1,0 @@
-#!/bin/bash
-
-docker run -d -p <%= @params["web_port"] %>:8890 \
-  -p <%= @params["isql_port"] %>  --name <%= @name %> \
-  -v /eol/virtuoso/var/lib/virtuoso/db:/usr/local/var/lib/virtuoso/db \
-  <%= @params["image"] %>:<%= @params["version"] %>
