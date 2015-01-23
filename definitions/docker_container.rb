@@ -44,14 +44,21 @@ define :docker_container, config: nil, passwd: nil do
     end
   end
 
+  ports = conf["ports"]
+  if ports
+    ports.each do |port|
+      shared_ports << [port["host"], port["container"]]
+    end
+  end
+
   sf = conf["service_files"]
   %w(start stop restart).each do |actn|
     file_name = "#{conf['name']}_#{actn}"
     template "/usr/local/bin/#{file_name}" do
-      source sf[actn]
+      source sf[actn + "_template"]
       variables params: params, name: conf["name"],
                 shared_files: shared_files, shared_ports: shared_ports
-      mode "755"
+      mode "775"
       user "root"
       group "root"
     end

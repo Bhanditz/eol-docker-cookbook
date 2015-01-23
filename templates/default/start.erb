@@ -1,10 +1,10 @@
 #!/bin/bash
 
 /usr/bin/docker run -d --name <%= @name %> \
-  <%- shared_ports.each do |ports| %>
+  <%- @shared_ports.each do |ports| %>
     -p <%= ports[0] %>:<%= ports[1] %> \
   <%- end -%>
-  <%- shared_files.each do |files| %>
+  <%- @shared_files.each do |files| %>
     -v <%= files[0] %>:<%= files[1] %> \
   <%- end -%>
   <%= @params["image"] %>:<%= @params["version"] %>
