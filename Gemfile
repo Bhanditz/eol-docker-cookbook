@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+gem "rest-client", "~> 1.7"
+
 group :test do
   gem "foodcritic", "~> 3.0"
   gem "rubocop", "~> 0.23"

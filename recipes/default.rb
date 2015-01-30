@@ -4,27 +4,35 @@ env = node.environment
 
 return unless data_bag("eol-docker").include?(env)
 
-conf = data_bag_item("eol-docker", env)[node.ipaddress]
+dbag = data_bag_item("eol-docker", env)
+node_conf = dbag[node.name]
 
-passwords = nil
-secret = "/etc/chef/data_bag_secret_key"
-if File.exist?(secret)
-  secret = Chef::EncryptedDataBagItem.load_secret(secret)
-  passwords = Chef::EncryptedDataBagItem.
-    load("eol-docker", "#{env}_passwords", secret)
+log "node_conf: %s" % node_conf
+
+group "docker" do
+  members dbag["docker_members"]
 end
 
-return unless conf
+return unless node_conf
 
 directory "/eol" do
   user "root"
-  group "root"
-  mode "0755"
+  group "docker"
+  mode "0775"
 end
 
-conf["containers"].each do |c|
+names = []
+node_conf["containers"].each do |c|
+  names << c["name"]
   docker_container c["name"] do
     config c
-    passwd passwords
   end
+end
+
+template "/usr/local/bin/restart_all" do
+  source "restart_all.erb"
+  variables names: names
+  mode "775"
+  user "root"
+  group "docker"
 end

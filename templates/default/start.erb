@@ -1,6 +1,9 @@
 #!/bin/bash
 
 /usr/bin/docker run -d --name <%= @name %> \
+  <%- @env_files.each do |env_file| %>
+    --env-file <%= env_file %> \
+  <%- end -%>
   <%- @shared_ports.each do |ports| %>
     -p <%= ports[0] %>:<%= ports[1] %> \
   <%- end -%>

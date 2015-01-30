@@ -23,5 +23,5 @@ if platform?("ubuntu")
 elsif platform?("redhat", "centos")
   install_rhel
 else
-  raise("#{node["platform"]} is not supported")
+  raise("#{node['platform']} is not supported")
 end
