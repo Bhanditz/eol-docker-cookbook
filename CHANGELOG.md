@@ -2,6 +2,10 @@ eol-docker CHANGELOG
 ====================
 
 This file is used to list changes made in each version of the eol-docker cookbook.
+0.1.7
+-----
+- [dimus][1] - added mysql my.cnf and slave master
+
 0.1.6
 -----
 - [dimus][1] - added mysql and memcached

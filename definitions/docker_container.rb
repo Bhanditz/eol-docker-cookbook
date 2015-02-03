@@ -32,7 +32,7 @@ define :docker_container, config: nil do
       template f["host"] do
         user "root"
         group "docker"
-        mode "660"
+        mode "664"
         source f["template"]
         variables params: params
         action :create_if_missing
