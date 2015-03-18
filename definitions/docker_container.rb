@@ -35,7 +35,7 @@ define :docker_container, config: nil do
         mode "664"
         source f["template"]
         variables params: params
-        action :create_if_missing
+        action :create
       end
       shared_files << [f["host"],f["container"]]
     end
