@@ -12,10 +12,6 @@ backend content {
     .threshold = 3;
   }
 }
-backend content_mbl {
-  .host = "<%= @params["content_backup_ip"] %>";
-  .port = "<%= @params["content_backup_port"] %>";
-}
 
 ### APPSERVERS ####
 <%- @params["apps"].each do |app| %>
@@ -125,10 +121,6 @@ sub vcl_recv {
     unset req.http.X-Forwarded-For;
     set req.backend = content;
     set req.http.host = "10.0.0.31";
-  } elseif (req.http.host ~ "10.0.0.31$") {
-    unset req.http.Cookie;
-    unset req.http.Authorization;
-    set req.backend = content_mbl;
   } else {
     set req.backend = appfarm;
   }
