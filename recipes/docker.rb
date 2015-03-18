@@ -16,6 +16,8 @@ def install_rhel
   package "docker-io" do
     action :upgrade
   end
+
+  service "docker"
 end
 
 if platform?("ubuntu")
