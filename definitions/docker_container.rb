@@ -3,6 +3,7 @@ define :docker_container, config: nil do
   conf = params[:config]
   params = conf["params"]
   shared_files = []
+  shared_config_files = []
   shared_ports = []
   env_files = []
   passwords = nil
@@ -37,7 +38,7 @@ define :docker_container, config: nil do
         variables params: params
         action :create
       end
-      shared_files << [f["host"],f["container"]]
+      shared_config_files << [f["host"],f["container"]]
     end
   end
 
@@ -72,6 +73,7 @@ define :docker_container, config: nil do
                 name: conf["name"],
                 env_files: env_files,
                 shared_files: shared_files,
+                shared_config_files: shared_config_files,
                 shared_ports: shared_ports
       mode "775"
       user "root"
