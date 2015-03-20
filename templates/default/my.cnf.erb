@@ -56,11 +56,13 @@ explicit-defaults-for-timestamp
 # DATA STORAGE #
 datadir                        = /var/lib/mysql/
 
+<%- if @params["binlog"] && @params["binlog"] == "true" -%>
 # BINARY LOGGING #
 log-bin                        = /var/lib/mysql/mysql-bin
 expire-logs-days               = 14
 sync-binlog                    = 1
 max-binlog-size                = 100M
+<%- end -%>
 
 #REPLICATION
 server-id                      = <%= @params["server_id"] %>

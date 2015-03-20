@@ -21,7 +21,6 @@ def install_rhel
     supports :status => true, :restart => true, :reload => true
     action [ :enable, :start ]
   end
-
 end
 
 if platform?("ubuntu")
