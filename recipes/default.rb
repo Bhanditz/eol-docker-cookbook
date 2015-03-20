@@ -30,9 +30,10 @@ node_conf["containers"].each do |c|
 end
 
 %w(docker_clean docker_nuke docker_names).each do |f|
-  file "/usr/local/bin/#{f}" do
-    source f
+  cookbook_file f do
+    path "/usr/local/bin/#{f}" 
     mode "0755"
+    action :create_if_missing
   end
 end
 
