@@ -29,6 +29,13 @@ node_conf["containers"].each do |c|
   end
 end
 
+%w(docker_clean docker_nuke docker_names).each do |f|
+  file "/usr/local/bin/#{f}" do
+    source f
+    mode "0755"
+  end
+end
+
 template "/usr/local/bin/restart_all" do
   source "restart_all.erb"
   variables names: names
