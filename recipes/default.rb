@@ -29,6 +29,14 @@ node_conf["containers"].each do |c|
   end
 end
 
+%w(docker_clean docker_nuke docker_names).each do |f|
+  cookbook_file f do
+    path "/usr/local/bin/#{f}" 
+    mode "0755"
+    action :create_if_missing
+  end
+end
+
 template "/usr/local/bin/restart_all" do
   source "restart_all.erb"
   variables names: names
