@@ -10,8 +10,8 @@ define :docker_container, config: nil do
 
   directory "/eol/#{conf["name"]}" do
     user "root"
-    group "docker"
-    mode "0775"
+    action :delete
+    recursive true
   end
 
   ef = conf["env_files"]
