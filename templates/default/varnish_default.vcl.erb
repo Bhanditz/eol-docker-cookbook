@@ -28,13 +28,6 @@ backend sysopia {
 backend sensu {
   .host = "<%= @params["sensu_ip"] %>";
   .port = "<%= @params["sensu_port"] %>";
-  .probe = {
-    .url = "/#/checks";
-    .interval = 5s;
-    .timeout = 1s;
-    .window = 5;
-    .threshold = 3;
-  }
 }
 
 ### APPSERVERS ####
