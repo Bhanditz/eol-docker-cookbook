@@ -8,6 +8,9 @@ define :docker_container, config: nil do
   env_files = []
   passwords = nil
 
+  log "params"
+  log params
+
   directory "/eol/#{conf["name"]}" do
     user "root"
     action :delete
