@@ -25,6 +25,18 @@ backend sysopia {
   }
 }
 
+backend sensu {
+  .host = "<%= @params["sensu_ip"] %>";
+  .port = "<%= @params["sensu_port"] %>";
+  .probe = {
+    .url = "/#/checks";
+    .interval = 5s;
+    .timeout = 1s;
+    .window = 5;
+    .threshold = 3;
+  }
+}
+
 ### APPSERVERS ####
 <%- @params["apps"].each do |app| %>
 backend app<%= app["name"] %> {
@@ -135,6 +147,8 @@ sub vcl_recv {
     set req.http.host = "<%= @params["content_host"] %>";
   } elseif (req.http.host ~ "^sysopia.eol.org$") {
     set req.backend = sysopia;
+  } elseif (req.http.host ~ "^sense.eol.org$") {
+    set req.backend = sensu;
   } else {
     set req.backend = appfarm;
   }

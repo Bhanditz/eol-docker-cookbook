@@ -6,7 +6,6 @@ define :docker_container, config: nil do
   shared_config_files = []
   shared_ports = []
   env_files = []
-  passwords = nil
 
   log "params"
   log params
