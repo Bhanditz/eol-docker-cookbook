@@ -6,12 +6,14 @@ define :docker_container, config: nil do
   shared_config_files = []
   shared_ports = []
   env_files = []
-  passwords = nil
+
+  log "params"
+  log params
 
   directory "/eol/#{conf["name"]}" do
     user "root"
-    group "docker"
-    mode "0775"
+    action :delete
+    recursive true
   end
 
   ef = conf["env_files"]

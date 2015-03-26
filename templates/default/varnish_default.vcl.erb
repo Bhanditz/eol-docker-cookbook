@@ -13,6 +13,23 @@ backend content {
   }
 }
 
+backend sysopia {
+  .host = "<%= @params["sysopia_ip"] %>";
+  .port = "<%= @params["sysopia_port"] %>";
+  .probe = {
+    .url = "/favicon.ico";
+    .interval = 5s;
+    .timeout = 1s;
+    .window = 5;
+    .threshold = 3;
+  }
+}
+
+backend sensu {
+  .host = "<%= @params["sensu_ip"] %>";
+  .port = "<%= @params["sensu_port"] %>";
+}
+
 ### APPSERVERS ####
 <%- @params["apps"].each do |app| %>
 backend app<%= app["name"] %> {
@@ -121,6 +138,10 @@ sub vcl_recv {
     unset req.http.X-Forwarded-For;
     set req.backend = content;
     set req.http.host = "<%= @params["content_host"] %>";
+  } elseif (req.http.host ~ "^sysopia.eol.org$") {
+    set req.backend = sysopia;
+  } elseif (req.http.host ~ "^sense.eol.org$") {
+    set req.backend = sensu;
   } else {
     set req.backend = appfarm;
   }
