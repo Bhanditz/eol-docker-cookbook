@@ -43,7 +43,6 @@ tmp-table-size                 = 32M
 max-allowed-packet             = 16M
 max-connect-errors             = 1000000
 max-connections                = 600
-max_connections                = 600
 skip-name-resolve
 sql-mode                       = STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_AUTO_VALUE_ON_ZERO,NO_ENGINE_SUBSTITUTION,ONLY_FULL_GROUP_BY
 sysdate-is-now                 = 1
@@ -92,7 +91,7 @@ query-cache-type               = 0
 query-cache-size               = 0
 thread-cache-size              = -1
 thread-cache-size              = 50
-open-files-limit               = 65535
+open-files-limit               = 3610
 table-definition-cache         = 4096
 table-open-cache               = 4096
 
