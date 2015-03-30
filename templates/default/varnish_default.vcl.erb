@@ -148,9 +148,9 @@ sub vcl_recv {
     unset req.http.X-Forwarded-For;
     set req.backend = content;
     set req.http.host = "<%= @params["content_host"] %>";
-  } elseif (req.http.host ~ "^sysopia.eol.org$") {
+    } elseif (req.http.host ~ "^<%= @params["sysopia_host"] %>$") {
     set req.backend = sysopia;
-  } elseif (req.http.host ~ "^sense.eol.org$") {
+  } elseif (req.http.host ~ "^<%= @params["sensu_host"] %>$") {
     set req.backend = sensu;
   } else {
     set req.backend = appfarm;
