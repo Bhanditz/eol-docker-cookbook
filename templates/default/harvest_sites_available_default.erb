@@ -14,7 +14,8 @@ server {
   client_max_body_size 20M;
 
   location / {
-    try_files $uri $uri/ =404;
+    # try_files $uri $uri/ =404;
+    allow all;
   }
 
   location ~ /\.yml {
