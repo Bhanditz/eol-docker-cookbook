@@ -51,8 +51,8 @@ define :docker_container, config: nil do
       dir = File.directory(dir) if dir =~ /\.[a-z]{2,4}$/
       directory dir do
         recursive true
-        user "root"
-        group "docker"
+        user ddr["user"] || "root"
+        group ddr["group"] || "docker"
         mode "775"
       end
       shared_files << [ddr["host"], ddr["container"]]
