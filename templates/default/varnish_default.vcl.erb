@@ -30,6 +30,11 @@ backend sensu {
   .port = "<%= @params["sensu_port"] %>";
 }
 
+backend sensu {
+  .host = "<%= @params["harvest_ip"] %>";
+  .port = "<%= @params["harvest_port"] %>";
+}
+
 ### APPSERVERS ####
 <%- @params["apps"].each do |app| %>
 backend app<%= app["name"] %> {
@@ -150,6 +155,8 @@ sub vcl_recv {
     set req.http.host = "<%= @params["content_host"] %>";
     } elseif (req.http.host ~ "^<%= @params["sysopia_host"] %>$") {
     set req.backend = sysopia;
+  } elseif (req.http.host ~ "^<%= @params["harvest_host"] %>$") {
+    set req.backend = harvest;
   } elseif (req.http.host ~ "^<%= @params["sensu_host"] %>$") {
     set req.backend = sensu;
   } else {
