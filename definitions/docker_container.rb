@@ -48,7 +48,14 @@ define :docker_container, config: nil do
   if volumes
     volumes.each do |volume|
       dir = volume["host"]
-      dir = File.dirname(dir) if dir =~ /\.[a-z]{2,4}$/
+      if dir =~ /\.[a-z]{2,4}$/
+        file_path = dir
+        dir = File.dirname(dir)
+        file file_path do
+          user volume["user"] || "root"
+          group volume["group"] || "docker"
+        end
+      end
       directory dir do
         recursive true
         user volume["user"] || "root"
