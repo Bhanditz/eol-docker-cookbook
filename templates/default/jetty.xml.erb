@@ -24,7 +24,7 @@
             <Set name="maxIdleTime">50000</Set>
             <Set name="lowResourceMaxIdleTime">1500</Set>
             <Set name="statsOn">false</Set>
-            <Set name="requestHeaderSize"><%= @params["header_size"] %></Set>
+            <Set name="headerBufferSize"><%= @params["header_size"] %></Set>
           </New>
       </Arg>
     </Call>
