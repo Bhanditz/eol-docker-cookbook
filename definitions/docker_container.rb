@@ -44,18 +44,18 @@ define :docker_container, config: nil do
     end
   end
 
-  ddirs = conf["data_dirs"]
-  if ddirs
-    ddirs.each do |ddr|
-      dir = ddr["host"]
+  volumes = conf["volumes"]
+  if volumes
+    volumes.each do |volume|
+      dir = volume["host"]
       dir = File.directory(dir) if dir =~ /\.[a-z]{2,4}$/
       directory dir do
         recursive true
-        user ddr["user"] || "root"
-        group ddr["group"] || "docker"
+        user volume["user"] || "root"
+        group volume["group"] || "docker"
         mode "775"
       end
-      shared_files << [ddr["host"], ddr["container"]]
+      shared_files << [volume["host"], volume["container"]]
     end
   end
 
