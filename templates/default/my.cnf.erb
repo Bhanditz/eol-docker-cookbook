@@ -17,6 +17,7 @@ innodb_thread_concurrency   = 20 # A recommended value is 2 times the number of 
 interactive_timeout         = 432000
 
 join_buffer                 = 2M
+max_open_files              = 3610
 
 key_buffer_size             = 1G
 
@@ -34,7 +35,7 @@ long_query_time             = 0
 
 max_allowed_packet          = 16M
 max_connect_errors          = 10
-max_connections             = 2000
+max_connections             = 600
 myisam_sort_buffer_size     = 64M
 
 query_cache_type            = 1
@@ -70,8 +71,8 @@ sync-relay-log-info            = 1
 # 1062 error in SQL synthax, usually if column is a reserved word
 slave-skip-errors              = 1062
 binlog-format                  = row
-<%- end -%>
 
+<%- end -%>
 ####################################
 [client]
 
