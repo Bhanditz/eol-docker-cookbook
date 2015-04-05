@@ -64,13 +64,15 @@ skip-slave-start               = 1
 log-slave-updates              = 1
 relay-log                      = /var/lib/mysql/relay-bin
 slave-net-timeout              = 60
-sync-master-info               = 1
-sync-relay-log                 = 1
-sync-relay-log-info            = 1
 # list of errors which will not stop replication
 # 1062 error in SQL synthax, usually if column is a reserved word
 slave-skip-errors              = 1062
-binlog-format                  = row
+
+replicate-do-db                = eol_logging_production
+replicate-do-db                = eol_production
+
+# To be concervative: comment out row format
+# binlog-format                  = row
 
 <%- end -%>
 ####################################
