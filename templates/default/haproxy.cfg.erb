@@ -1,0 +1,36 @@
+#haproxy DB config
+
+global
+        log 127.0.0.1   local0
+        log 127.0.0.1   local1 notice
+        #log loghost    local0 info
+        # maxconn 4096
+        #todo check move to attribute
+        # maxconn 32000
+        # todo check and move to attribute
+        ulimit-n 65536
+        #debug
+        #quiet
+        user haproxy
+        group haproxy
+
+defaults
+        log     global
+        mode    tcp
+        option  httplog
+        option  dontlognull
+        retries 3
+        option redispatch
+        maxconn 2000
+        contimeout      5000
+        clitimeout      50000
+        srvtimeout      50000
+
+# Set up db listeners here.
+listen slaves 0.0.0.0:3306
+  mode tcp
+  balance roundrobin
+  option tcpka
+      <%- @params["db_slaves"].each do |slave| %>
+        server <%= slave["name"] %> <%= slave["ip"] %>:<%= slave["port"] %> check inter 2000 rise 2 fall 5
+      <%- end %>
