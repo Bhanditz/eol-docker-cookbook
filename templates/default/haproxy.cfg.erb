@@ -3,16 +3,7 @@
 global
         log 127.0.0.1   local0
         log 127.0.0.1   local1 notice
-        #log loghost    local0 info
-        # maxconn 4096
-        #todo check move to attribute
-        # maxconn 32000
-        # todo check and move to attribute
         ulimit-n 65536
-        #debug
-        #quiet
-        user haproxy
-        group haproxy
 
 defaults
         log     global
