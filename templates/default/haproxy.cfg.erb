@@ -31,6 +31,6 @@ listen slaves 0.0.0.0:3306
   mode tcp
   balance roundrobin
   option tcpka
-      <%- @params["db_slaves"].each do |slave| %>
+      <%- @params["slaves"].each do |slave| %>
         server <%= slave["name"] %> <%= slave["ip"] %>:<%= slave["port"] %> check inter 2000 rise 2 fall 5
       <%- end %>
