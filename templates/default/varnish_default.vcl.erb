@@ -155,6 +155,9 @@ sub vcl_recv {
     set req.http.host = "<%= @params["content_host"] %>";
     } elseif (req.http.host ~ "^<%= @params["sysopia_host"] %>$") {
     set req.backend = sysopia;
+  } elseif (req.http.host ~ "^content[0-9][0-9]*$") {
+  # If we're here, we know it's PHP looking for an old image.
+    set req.backend = content;
   } elseif (req.http.host ~ "^<%= @params["harvest_host"] %>$") {
     set req.backend = harvest;
   } elseif (req.http.host ~ "^<%= @params["sensu_host"] %>$") {
