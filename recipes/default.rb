@@ -15,18 +15,21 @@ end
 
 return unless node_conf
 
-directory "/eol" do
+directory "/eol/shared" do
   user "root"
   group "docker"
   mode "0775"
+  recursive true
 end
 
 names = []
+exec "> /eol/shared/containers"
 node_conf["containers"].each do |c|
   names << c["name"]
   docker_container c["name"] do
     config c
   end
+  exec "echo #{ c["name"] } >> /eol/shared/containers"
 end
 
 %w(docker_clean docker_nuke docker_names).each do |f|
