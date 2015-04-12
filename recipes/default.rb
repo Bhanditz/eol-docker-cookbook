@@ -22,14 +22,19 @@ directory "/eol/shared" do
   recursive true
 end
 
+file "/eol/shared/containers" do
+  content node_conf["containers"].map { |c| c["name"] }.join("\n")
+  owner "root"
+  group "docker"
+  mode 00644
+end
+
 names = []
-exec "> /eol/shared/containers"
 node_conf["containers"].each do |c|
   names << c["name"]
   docker_container c["name"] do
     config c
   end
-  exec "echo #{ c["name"] } >> /eol/shared/containers"
 end
 
 %w(docker_clean docker_nuke docker_names).each do |f|
