@@ -13,6 +13,6 @@ sub vcl_recv {
 sub vcl_error
 {
   set obj.http.Content-Type = "text/html; charset=utf-8";
-  synthetic std.fileread("/var/www/errors/503.html");
+  synthetic std.fileread("/etc/varnish/503.html");
   return(deliver);
 }
