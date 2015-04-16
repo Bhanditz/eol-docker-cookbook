@@ -20,22 +20,40 @@ Usage
 -----
 #### eol-docker::default
 
-Create data bag that describes your infrastructure
+Create production and/or staging environment on chef server, change
+`chef_environment` setting from  `_default` to a corresponding environment for
+every node that is part of your infrastructure.
 
 ```bash
-
+$ knife environment create production
+$ knife node edit server.example.org
 ```
-* Include `eol-docker` in your node's `run_list`, or include recipe to your
-cookbook:
+
+Create data bag that describes your infrastructure for production or staging
+environments
+
+```bash
+$ knife data bag create eol-docker
+$ knife data bag create eol-docker production
+```
+Make sure that nodes have correct `chef_environment` value. No changes will be
+made to a node if environment value does not correspond to the name of the data
+bag item (if data bag item is called production -- participating nodes should
+have `production` as their `chef_environment`.
+
+Include `eol-docker` in your node's, or role's `run_list`, or include recipe to
+your cookbook:
 
 ```json
 {
-  "name":"my_node",
+  "name": "server.example.org",
+  "chef_environment": "production",
   "run_list": [
     "recipe[eol-docker]"
   ]
 }
 ```
+
 
 Contributing
 ------------
