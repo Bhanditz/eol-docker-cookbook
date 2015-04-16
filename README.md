@@ -1,39 +1,32 @@
 eol-docker Cookbook
 ===================
+
 This cookbook installs docker and creates EOL infrastructure according to
-eol-docker/infrastructure data bag
+eol-docker/infrastructure data bag. The cookbook reads from eol-docker data
+bags which containers need to be installed on which node. It also creates
+start/stop/restart scripts, and these scripts designate where to read
+configuration files, which directories to make available inside of the
+container, which environment variables need to be set.
 
 Requirements
 ------------
 
 #### cookbooks
-- `docker` - eol-docker needs docker cookbook to install and configure docker
+- `apt`, 'yum' - eol-docker uses either apt-get or yum to install docker on the
+                 host Linux machine
 
-Attributes
-----------
-
-#### eol-docker::default
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['eol-docker']['todo']</tt></td>
-    <td>Boolean</td>
-    <td>Add attributes here</td>
-    <td><tt>true</tt></td>
-  </tr>
-</table>
 
 Usage
 -----
 #### eol-docker::default
 
-* Create data bag that describes your infrastructure
-* Include `eol-docker` in your node's `run_list`:
+Create data bag that describes your infrastructure
+
+```bash
+
+```
+* Include `eol-docker` in your node's `run_list`, or include recipe to your
+cookbook:
 
 ```json
 {
