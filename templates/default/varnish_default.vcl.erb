@@ -133,7 +133,7 @@ sub vcl_recv {
     return(error);
   } elseif (req.url ~ "^/api" ) {
     set req.backend = apirequests;
-  } elseif (req.url ~ "^/partner_logos/") {
+  } elseif (req.url ~ "^/sitemap/") {
     unset req.http.Cookie;
     unset req.http.Authorization;
     unset req.http.cache-control;
