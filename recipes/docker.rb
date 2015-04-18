@@ -13,9 +13,10 @@ end
 
 def install_rhel
   include_recipe "yum-epel"
-  package "docker-io" do
-    action :upgrade
-  end
+  # This can cause docker daemon to restart, which is BAD:
+  # package "docker-io" do
+  #   action :upgrade
+  # end
 
   service "docker" do
     supports :status => true, :restart => true, :reload => true
