@@ -46,6 +46,14 @@ backend app<%= app["name"] %> {
 }
 <%- end %>
 
+##################### ACL ######################
+
+# Specific IP addresses that we have found to abuse our policies:
+
+acl unwanted {
+  "98.174.196.0"/24;
+}
+
 ################## directors ###################
 
 # These are our public app servers:
@@ -129,6 +137,8 @@ sub vcl_recv {
       req.http.user-agent ~ "Smithsonian-Public-GSA" ||
       req.http.user-agent ~ "PaperLiBot") {
         set req.backend = searchbots;
+  } elseif (client.ip ~ unwanted) {
+    error 410;
   } elseif (req.url ~ "/testaction" ) {
     return(error);
   } elseif (req.url ~ "^/api" ) {
