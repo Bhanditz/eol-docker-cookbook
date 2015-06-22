@@ -51,7 +51,9 @@ backend app<%= app["name"] %> {
 # Specific IP addresses that we have found to abuse our policies:
 
 acl unwanted {
+  "68.180.228.106";
   "98.174.196.0"/24;
+  "180.76.15.0"/24;
 }
 
 ################## directors ###################
