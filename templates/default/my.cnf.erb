@@ -16,8 +16,8 @@ innodb_file_per_table
 innodb_flush_method         = O_DIRECT
 innodb_log_file_size        = 1G
 innodb_thread_concurrency   = 20 # A recommended value is 2 times the number of CPUs plus the number of disks.
-interactive_timeout         = 3600 # 1hr
-wait_timeout                = 3600 # 1hr
+interactive_timeout         = 3600 # 2 hours
+wait_timeout                = 150000 # almost 42 hours! (was 3600, 2 hours, default 28800)
 
 join_buffer                 = 2M
 key_buffer_size             = 1G
