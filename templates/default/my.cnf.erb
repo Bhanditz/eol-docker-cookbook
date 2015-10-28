@@ -9,6 +9,12 @@ default-character-set       = utf8
 
 expire-logs-days            = 14
 
+# Setting this to 0 will let mysql set the value itself on startup, though this
+# does not appear to yield a fantastic value for docker containers, so we are
+# setting it explicitly. 1024 is the default, and it was causing errors. 1000000
+# is the limit on our slaves, and that seems high. Sooo:
+open_files_limit            = 65536 # Default 1024, we *'ed it by 64.
+
 init-connect                = "SET NAMES utf8"
 innodb_additional_mem_pool  = 20M
 innodb_buffer_pool_size     = <%= @params["innodb_buffer_pool_size"] %>
@@ -16,6 +22,7 @@ innodb_file_per_table
 innodb_flush_method         = O_DIRECT
 innodb_log_file_size        = 1G
 innodb_thread_concurrency   = 20 # A recommended value is 2 times the number of CPUs plus the number of disks.
+innodb_open_files           = 19200 # Default 300, we *'ed it by 64.
 interactive_timeout         = 3600 # 2 hours
 wait_timeout                = 150000 # almost 42 hours! (was 3600, 2 hours, default 28800)
 
