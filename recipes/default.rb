@@ -45,6 +45,14 @@ end
   end
 end
 
+template "/usr/local/bin/stop_all" do
+  source "stop_all.erb"
+  variables names: names
+  mode "775"
+  user "root"
+  group "docker"
+end
+
 template "/usr/local/bin/restart_all" do
   source "restart_all.erb"
   variables names: names
