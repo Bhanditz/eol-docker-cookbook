@@ -16,13 +16,8 @@ backend content {
 backend beta {
   .host = "<%= @params["beta_ip"] %>";
   .port = "<%= @params["beta_port"] %>";
-  .probe = {
-    .url = "/favicon.ico";
-    .interval = 5s;
-    .timeout = 1s;
-    .window = 5;
-    .threshold = 3;
-  }
+  .probe = { .url = "/api/ping.json"; .interval = 5s;
+    .timeout = 3s; .window = 5; .threshold = 3; }
 }
 
 backend sysopia {
@@ -40,8 +35,13 @@ backend sysopia {
 backend opendata {
   .host = "<%= @params["opendata_ip"] %>";
   .port = "<%= @params["opendata_port"] %>";
-  .probe = { .url = "/api/ping.json"; .interval = 5s;
-    .timeout = 3s; .window = 5; .threshold = 3; }
+  .probe = {
+    .url = "/favicon.ico";
+    .interval = 5s;
+    .timeout = 1s;
+    .window = 5;
+    .threshold = 3;
+  }
 }
 
 backend sensu {
