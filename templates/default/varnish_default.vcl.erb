@@ -186,7 +186,7 @@ sub vcl_recv {
     unset req.http.X-Forwarded-For;
     set req.backend = harvest;
     set req.http.host = "<%= @params["harvest_ip"] %>";
-  } elseif (req.url ~ "^/content/(20|partner_logos)") {
+  } elseif (req.url ~ "^/content/(20|partner_logos|maps)") {
     unset req.http.Cookie;
     unset req.http.Authorization;
     unset req.http.cache-control;
