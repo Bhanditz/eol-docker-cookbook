@@ -44,6 +44,11 @@ backend opendata {
   }
 }
 
+backend editors {
+  .host = "<%= @params["editors_ip"] %>";
+  .port = "<%= @params["editors_port"] %>";
+}
+
 backend sensu {
   .host = "<%= @params["sensu_ip"] %>";
   .port = "<%= @params["sensu_port"] %>";
@@ -206,6 +211,8 @@ sub vcl_recv {
     set req.backend = harvest;
   } elseif (req.http.host ~ "^<%= @params["sensu_host"] %>$") {
     set req.backend = sensu;
+  } elseif (req.http.host ~ "^<%= @params["editors_host"] %>$") {
+    set req.backend = editors;
   } else {
     set req.backend = appfarm;
   }
