@@ -16,8 +16,8 @@ backend content {
 backend beta {
   .host = "<%= @params["beta_ip"] %>";
   .port = "<%= @params["beta_port"] %>";
-  .probe = { .url = "/api/ping.json"; .interval = 5s;
-    .timeout = 3s; .window = 5; .threshold = 3; }
+  .probe = { .url = "/api/ping.json"; .interval = 10s;
+    .timeout = 6s; .window = 2; .threshold = 1; }
 }
 
 backend sysopia {
@@ -65,8 +65,8 @@ backend app<%= app["name"] %> {
   .host= "<%= app["ip"] %>";
   .port = "<%= app["port"] %>";
   .first_byte_timeout = 120s;
-  .probe = { .url = "/api/ping.json"; .interval = 5s;
-    .timeout = 3s; .window = 5; .threshold = 3; }
+  .probe = { .url = "/api/ping.json"; .interval = 10s;
+    .timeout = 6s; .window = 3; .threshold = 1; }
 }
 <%- end %>
 
