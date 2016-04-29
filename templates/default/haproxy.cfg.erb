@@ -3,12 +3,11 @@
 global
         log 127.0.0.1   local0
         log 127.0.0.1   local1 notice
-        ulimit-n 65536
 
 defaults
         log     global
         mode    tcp
-        option  httplog
+        option  tcplog
         option  dontlognull
         retries 3
         option redispatch
@@ -18,10 +17,15 @@ defaults
         timeout server      50000
 
 # Set up db listeners here.
-listen slaves 0.0.0.0:3306
+frontend localnodes
+  bind *:3306
+  mode tcp
+  default_backend nodes
+
+backend nodes
   mode tcp
   balance roundrobin
   option tcpka
       <%- @params["slaves"].each do |slave| %>
-        server <%= slave["name"] %> <%= slave["ip"] %>:<%= slave["port"] %> check inter 2000 rise 2 fall 5
+        server <%= slave["name"] %> <%= slave["ip"] %>:<%= slave["port"] %> check inter 2000 port 3306 maxconn 2000 rise 2 fall 5
       <%- end %>
