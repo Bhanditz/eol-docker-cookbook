@@ -1,6 +1,5 @@
-################### backends ###################
+##### Backends
 
-#### CONTENT ####
 backend content {
   .host = "<%= @params["content_ip"] %>";
   .port = "<%= @params["content_port"] %>";
@@ -59,7 +58,7 @@ backend harvest {
   .port = "<%= @params["harvest_port"] %>";
 }
 
-### APPSERVERS ####
+### App Servers
 <%- @params["apps"].each do |app| %>
 backend app<%= app["name"] %> {
   .host= "<%= app["ip"] %>";
@@ -70,17 +69,17 @@ backend app<%= app["name"] %> {
 }
 <%- end %>
 
-##################### ACL ######################
+##### ACL
 
-# Specific IP addresses that we have found to abuse our policies:
-
+# blacklist of specific IP addresses that we have found to abuse our policies:
 acl unwanted {
   "68.180.228.106";
   "98.174.196.0"/24;
   "180.76.15.0"/24;
+  "144.76.195.74";
 }
 
-################## directors ###################
+##### Directors
 
 # These are our public app servers:
 <%- groups = @params["apps"].group_by { |app| app["director"] } %>
@@ -94,6 +93,7 @@ director <%= group_name %> random {
 <%- end %>
 
 sub vcl_recv {
+# Encode anything that we can:
   if (req.http.Accept-Encoding) {
     if (req.url ~ "\.(jpg|png|gif|gz|tgz|bz2|tbz|mp3|ogg)$") {
 # No point in compressing these
@@ -107,6 +107,7 @@ sub vcl_recv {
       remove req.http.Accept-Encoding;
     }
   }
+# Search Bots:
   if (req.http.user-agent ~ "Googlebot" ||
       req.http.user-agent ~ "Googlebot-Mobile" ||
       req.http.user-agent ~ "Googlebot-Image" ||
@@ -165,8 +166,9 @@ sub vcl_recv {
         set req.backend = searchbots;
   } elseif (client.ip ~ unwanted) {
     error 410;
-  } elseif (req.url ~ "/testaction" ) {
+  } elseif (req.url ~ "/varnishboom" ) {
     return(error);
+# API requests:
   } elseif (req.url ~ "^/api" ) {
     set req.backend = apirequests;
   } elseif (req.url ~ "^/sitemap/") {
@@ -179,6 +181,7 @@ sub vcl_recv {
     unset req.http.X-Forwarded-For;
     set req.backend = content;
     set req.http.host = "<%= @params["content_host"] %>";
+# harvest server handles the most recent content:
   } elseif (req.url ~ "^/content/2015/0[4-9]" ||
             req.url ~ "^/content/2015/1[0-9]" ||
             req.url ~ "^/content/2016") {
@@ -191,6 +194,7 @@ sub vcl_recv {
     unset req.http.X-Forwarded-For;
     set req.backend = harvest;
     set req.http.host = "<%= @params["harvest_ip"] %>";
+# The content server handles all the rest of the content:
   } elseif (req.url ~ "^/content/(20|partner_logos|maps)") {
     unset req.http.Cookie;
     unset req.http.Authorization;
@@ -201,6 +205,7 @@ sub vcl_recv {
     unset req.http.X-Forwarded-For;
     set req.backend = content;
     set req.http.host = "<%= @params["content_host"] %>";
+# Subdomains that we serve:
   } elseif (req.http.host ~ "^<%= @params["beta_host"] %>$") {
     set req.backend = beta;
   } elseif (req.http.host ~ "^<%= @params["sysopia_host"] %>$") {
@@ -213,6 +218,7 @@ sub vcl_recv {
     set req.backend = sensu;
   } elseif (req.http.host ~ "^<%= @params["editors_host"] %>$") {
     set req.backend = editors;
+# And last but not least, the "normal" app farm:
   } else {
     set req.backend = appfarm;
   }
