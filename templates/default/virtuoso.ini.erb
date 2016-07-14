@@ -224,8 +224,12 @@ DefaultHost  = localhost:8890
 ;ImmutableGraphs    		= http://localhost:8890/dataspace
 MaxCacheExpiration         = 1	; Cache Expiration time in seconds; overrides Sponger's default cache invalidation scheme
 ResultSetMaxRows           = 10000
-MaxQueryCostEstimationTime = 16000	; in seconds
-MaxQueryExecutionTime      = 60	; in seconds
+; "MaxQueryCostEstimationTime” should never be set in the INI file in production
+; use as the Cost Optimizer estimates are generally not accurate and this is more
+; a development/debugging param. Thus the only one that should be set to control
+; query execution time is "MaxQueryExecutionTime".
+;MaxQueryCostEstimationTime = 16000	; in seconds
+MaxQueryExecutionTime      = 120	; in seconds
 DefaultQuery               = select distinct ?Concept where {[] a ?Concept} LIMIT 100
 DeferInferenceRulesInit    = 0	; controls inference rules loading
 ;PingService       		= http://rpc.pingthesemanticweb.com/
