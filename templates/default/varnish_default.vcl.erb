@@ -46,6 +46,9 @@ backend opendata {
 backend editors {
   .host = "<%= @params["editors_ip"] %>";
   .port = "<%= @params["editors_port"] %>";
+  .connect_timeout = 24s;
+  .first_byte_timeout = 120s;
+  .between_bytes_timeout = 48s;
 }
 
 backend sensu {
