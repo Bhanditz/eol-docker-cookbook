@@ -61,6 +61,13 @@ backend harvest {
   .port = "<%= @params["harvest_port"] %>";
 }
 
+backend crawler {
+  .host = "<%= @params["crawler_ip"] %>";
+  .port = "<%= @params["crawler_port"] %>";
+  .probe = { .url = "/api/ping.json"; .interval = 10s;
+    .timeout = 6s; .window = 2; .threshold = 1; }
+}
+
 ### App Servers
 <%- @params["apps"].each do |app| %>
 backend app<%= app["name"] %> {
@@ -209,6 +216,8 @@ sub vcl_recv {
     set req.http.host = "<%= @params["content_host"] %>";
 # Subdomains that we serve:
   } elseif (req.http.host ~ "^<%= @params["beta_host"] %>$") {
+    set req.backend = beta;
+  } elseif (req.http.host ~ "^<%= @params["crawler_host"] %>$") {
     set req.backend = beta;
   } elseif (req.http.host ~ "^<%= @params["sysopia_host"] %>$") {
     set req.backend = sysopia;
