@@ -218,7 +218,7 @@ sub vcl_recv {
   } elseif (req.http.host ~ "^<%= @params["beta_host"] %>$") {
     set req.backend = beta;
   } elseif (req.http.host ~ "^<%= @params["crawler_host"] %>$") {
-    set req.backend = beta;
+    set req.backend = crawler;
   } elseif (req.http.host ~ "^<%= @params["sysopia_host"] %>$") {
     set req.backend = sysopia;
   } elseif (req.http.host ~ "^<%= @params["opendata_host"] %>$") {
