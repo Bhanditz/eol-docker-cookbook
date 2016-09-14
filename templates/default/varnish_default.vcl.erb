@@ -83,10 +83,18 @@ backend app<%= app["name"] %> {
 
 # blacklist of specific IP addresses that we have found to abuse our policies:
 acl unwanted {
+  # Not sure (sorry):
   "68.180.228.106";
+  # Not sure (sorry):
   "98.174.196.0"/24;
+  # China:
   "180.76.15.0"/24;
+  # Not sure (sorry):
   "144.76.195.74";
+  # Russian (St Petersburg) spambots, attempt to post comments over and over:
+  "46.161.9.32";
+  "46.161.9.24";
+  "46.161.9.31";
 }
 
 ##### Directors
@@ -118,7 +126,9 @@ sub vcl_recv {
     }
   }
 # Search Bots:
-  if (req.http.user-agent ~ "Googlebot" ||
+  if (client.ip ~ unwanted) {
+    error 410;
+  } elseif (req.http.user-agent ~ "Googlebot" ||
       req.http.user-agent ~ "Googlebot-Mobile" ||
       req.http.user-agent ~ "Googlebot-Image" ||
       req.http.user-agent ~ "rogerbot" ||
@@ -174,8 +184,6 @@ sub vcl_recv {
       req.http.user-agent ~ "Smithsonian-Public-GSA" ||
       req.http.user-agent ~ "PaperLiBot") {
         set req.backend = searchbots;
-  } elseif (client.ip ~ unwanted) {
-    error 410;
   } elseif (req.url ~ "/varnishboom" ) {
     return(error);
 # API requests:
