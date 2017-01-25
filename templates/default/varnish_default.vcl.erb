@@ -92,9 +92,7 @@ acl unwanted {
   # Not sure (sorry):
   "144.76.195.74";
   # Russian (St Petersburg) spambots, attempt to post comments over and over:
-  "46.161.9.32";
-  "46.161.9.24";
-  "46.161.9.31";
+  "46.161.9.0"/24;
   # Rackspace rack in TX that clearly had a bug reading collections:
   "23.253.21.20";
   # Logs show clear comment spam violations:
@@ -105,6 +103,9 @@ acl unwanted {
   "195.221.175.66";
   # Moscow
   "213.87.151.30";
+  # Hong Kong, was scanning us with distributed queries. /17 might not be a
+  # small enough mask, we had trouble from .48 through .58...
+  "202.46.58.0"/17;
 }
 
 ##### Directors
