@@ -212,7 +212,8 @@ sub vcl_recv {
     set req.http.host = "<%= @params["content_host"] %>";
 # harvest server handles the most recent content:
   } elseif (req.url ~ "^/content/2016/0[89]" ||
-            req.url ~ "^/content/2016/1") {
+            req.url ~ "^/content/2016/1" ||
+            req.url ~ "^/content/2017/") {
     unset req.http.Cookie;
     unset req.http.Authorization;
     unset req.http.cache-control;
