@@ -34,13 +34,9 @@ backend sysopia {
 backend opendata {
   .host = "<%= @params["opendata_ip"] %>";
   .port = "<%= @params["opendata_port"] %>";
-  .probe = {
-    .url = "/favicon.ico";
-    .interval = 5s;
-    .timeout = 1s;
-    .window = 5;
-    .threshold = 3;
-  }
+  .connect_timeout = 24s;
+  .first_byte_timeout = 120s;
+  .between_bytes_timeout = 48s;
 }
 
 backend editors {
