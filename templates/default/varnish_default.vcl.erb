@@ -193,6 +193,21 @@ sub vcl_recv {
         set req.backend = searchbots;
   } elseif (req.url ~ "/varnishboom" ) {
     return(error);
+# Subdomains that we serve:
+  } elseif (req.http.host ~ "^<%= @params["beta_host"] %>$") {
+    set req.backend = beta;
+  } elseif (req.http.host ~ "^<%= @params["crawler_host"] %>$") {
+    set req.backend = crawler;
+  } elseif (req.http.host ~ "^<%= @params["sysopia_host"] %>$") {
+    set req.backend = sysopia;
+  } elseif (req.http.host ~ "^<%= @params["opendata_host"] %>$") {
+    set req.backend = opendata;
+  } elseif (req.http.host ~ "^<%= @params["harvest_host"] %>$") {
+    set req.backend = harvest;
+  } elseif (req.http.host ~ "^<%= @params["sensu_host"] %>$") {
+    set req.backend = sensu;
+  } elseif (req.http.host ~ "^<%= @params["editors_host"] %>$") {
+    set req.backend = editors;
 # API requests:
   } elseif (req.url ~ "^/api" ) {
     set req.backend = apirequests;
@@ -230,21 +245,6 @@ sub vcl_recv {
     unset req.http.X-Forwarded-For;
     set req.backend = content;
     set req.http.host = "<%= @params["content_host"] %>";
-# Subdomains that we serve:
-  } elseif (req.http.host ~ "^<%= @params["beta_host"] %>$") {
-    set req.backend = beta;
-  } elseif (req.http.host ~ "^<%= @params["crawler_host"] %>$") {
-    set req.backend = crawler;
-  } elseif (req.http.host ~ "^<%= @params["sysopia_host"] %>$") {
-    set req.backend = sysopia;
-  } elseif (req.http.host ~ "^<%= @params["opendata_host"] %>$") {
-    set req.backend = opendata;
-  } elseif (req.http.host ~ "^<%= @params["harvest_host"] %>$") {
-    set req.backend = harvest;
-  } elseif (req.http.host ~ "^<%= @params["sensu_host"] %>$") {
-    set req.backend = sensu;
-  } elseif (req.http.host ~ "^<%= @params["editors_host"] %>$") {
-    set req.backend = editors;
 # And last but not least, the "normal" app farm:
   } else {
     set req.backend = appfarm;
